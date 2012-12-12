@@ -1,4 +1,6 @@
 .DS_Store
 *.userprefs
+*.suo
 bin/
 obj/
+_ReSharper.*

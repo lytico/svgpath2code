@@ -11,7 +11,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Point = System.Drawing.PointF;
+using Number = System.Single;
 
 namespace Poupou.SvgPathConverter {
 
@@ -65,16 +66,16 @@ namespace Poupou.SvgPathConverter {
 			return Char.IsDigit (c) || c == '.' || c == '-' || c == '+';
 		}
 		
-		static float GetFloat (string svg, ref int pos)
+		static Number GetFloat (string svg, ref int pos)
 		{
 			int end = FindNonFloat (svg, pos);
 			string s = svg.Substring (pos, end - pos);
-			float f = Single.Parse (s);
+            var f = Number.Parse(s);
 			pos = end;
 			return f;
 		}
 		
-		static PointF GetPoint (string svg, ref int pos)
+		static Point GetPoint (string svg, ref int pos)
 		{
 			while (Char.IsWhiteSpace (svg [pos]))
 				pos++;
@@ -89,22 +90,25 @@ namespace Poupou.SvgPathConverter {
 			
 			float y = GetFloat (svg, ref pos);
 			
-			return new PointF (x, y);
+			return new Point (x, y);
 		}
 		
-		static PointF MakeRelative (PointF c, PointF m)
+		static Point MakeRelative (Point c, Point m)
 		{
-			return new PointF (m.X + c.X, m.Y + c.Y);
+			return new Point (m.X + c.X, m.Y + c.Y);
 		}
 
 		static void Parse (string svg, string name, ISourceFormatter formatter)
 		{
 			formatter.Prologue (name);
-			
-			PointF start;
-			PointF cp = new PointF (0, 0);
-			PointF cp1, cp2, cp3;
-			PointF qbzp, cbzp;
+
+            var start = new Point(0, 0);
+			var cp = new Point (0, 0);
+            var cp1 = new Point (0, 0);
+            var cp2 = new Point(0, 0);
+                var  cp3 = new Point(0, 0);
+                var qbzp = new Point(0, 0); 
+                var cbzp = new Point(0, 0);
 			int fill_rule = 0;
 			int pos = 0;
 			bool cbz = false;
@@ -133,7 +137,7 @@ namespace Poupou.SvgPathConverter {
 					float x = GetFloat (svg, ref pos);
 					if (relative)
 						x += cp.X;
-					cp = new PointF (x, cp.Y);
+					cp = new Point (x, cp.Y);
 					formatter.LineTo (cp);
 					cbz = qbz = false;
 					break;
@@ -314,7 +318,7 @@ namespace Poupou.SvgPathConverter {
 					float y = GetFloat (svg, ref pos);
 					if (relative)
 						y += cp.Y;
-					cp = new PointF (cp.X, y);
+					cp = new Point (cp.X, y);
 					formatter.LineTo (cp);
 					cbz = qbz = false;
 					break;

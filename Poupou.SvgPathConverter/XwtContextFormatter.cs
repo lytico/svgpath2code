@@ -12,18 +12,18 @@ using Number = System.Single;
 
 namespace Poupou.SvgPathConverter {
 
-	public class CSharpCoreGraphicsFormatter : ISourceFormatter {
+	public class XwtContextFormatter : ISourceFormatter {
 
 		TextWriter writer;
 
-		public CSharpCoreGraphicsFormatter (TextWriter textWriter)
+        public XwtContextFormatter(TextWriter textWriter)
 		{
 			writer = textWriter;
 		}
 		
 		public void Prologue (string name)
 		{
-			writer.WriteLine ("\tstatic void {0} (CGContext c)", name);
+			writer.WriteLine ("\tstatic void {0} (Context c)", name);
 			writer.WriteLine ("\t{");
 		}
 	
