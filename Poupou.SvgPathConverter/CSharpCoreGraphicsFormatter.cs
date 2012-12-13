@@ -50,15 +50,15 @@ namespace Poupou.SvgPathConverter {
 			writer.WriteLine ("\t\tc.ClosePath ();");
 		}
 	
-		public void QuadCurveTo (Point pt1, Point pt2)
+		public void QuadCurveTo (Point endPoint, Point controlPoint)
 		{
-			writer.WriteLine ("\t\tc.AddQuadCurveToPoint ({0}f, {1}f, {2}f, {3}f);", pt1.X, pt1.Y, pt2.X, pt2.Y);
+			writer.WriteLine ("\t\tc.AddQuadCurveToPoint ({0}f, {1}f, {2}f, {3}f);", endPoint.X, endPoint.Y, controlPoint.X, controlPoint.Y);
 		}
 
-		public void CurveTo (Point pt1, Point pt2, Point pt3)
+		public void CurveTo (Point endPoint, Point controlPoint1, Point controlPoint2)
 		{
 			writer.WriteLine ("\t\tc.AddCurveToPoint ({0}f, {1}f, {2}f, {3}f, {4}f, {5}f);", 
-				pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y);
+				endPoint.X, endPoint.Y, controlPoint1.X, controlPoint1.Y, controlPoint2.X, controlPoint2.Y);
 		}
 
 		public void ArcTo (Point size, Number angle, bool isLarge, bool sweep, Point endPoint, Point startPoint)

@@ -4,7 +4,6 @@
 // Copyright 2012 Xamarin Inc.
 //
 // Licensed under the GNU LGPL 2 license only (no "later versions")
-
 using System;
 using System.IO;
 using Poupou.SvgPathConverter;
@@ -13,27 +12,28 @@ using Poupou.SvgPathConverter;
 // based application to show them all. Since MonoTouch uses C# and iOS is CoreGraphics based then the parameters (and
 // the extra code generation) are hardcoded inside the sample.
 
-class Program {
+class Program
+{
 
 	static void Usage (string error, params string[] values)
 	{
 		Console.WriteLine ("Usage: convert-font-awesome <font-directory> [generated-file.cs]");
-        if (error != null) {
-            Console.WriteLine(error, values);
-            Console.ReadLine();
-        }
+		if (error != null) {
+			Console.WriteLine (error, values);
+			Console.ReadLine ();
+		}
 		Environment.Exit (1);
 	}
 
 	public static int Main (string[] args)
 	{
-        if (args.Length < 1) {
-            var awesomeDir = @"..\..\Font-Awesome";
-            if (!Directory.Exists(awesomeDir))
-                Usage("error: Path to FontAwesome directory required");
-            else
-                args = new[] { awesomeDir, "FontAwesome-Generated.cs" };
-        }
+		if (args.Length < 1) {
+			var awesomeDir = @"..\..\Font-Awesome";
+			if (!Directory.Exists (awesomeDir))
+				Usage ("error: Path to FontAwesome directory required");
+			else
+				args = new[] { awesomeDir, "FontAwesome-Generated.cs" };
+		}
 
 		string font_dir = args [0];
 		string css_file = Path.Combine (font_dir, "css/font-awesome.css");
@@ -46,27 +46,30 @@ class Program {
 
 		TextWriter writer = (args.Length < 2) ? Console.Out : new StreamWriter (args [1]);
 
-        ISourceFormatter code = null;
+		ISourceFormatter code = null;
         
-        var fontWriter = new FontAwesomeWriter();
-        var fType = FormatterTypes.XwtDrawingContext;
-        Action<TextWriter, string> writeElement = null;
-        if (fType.HasFlag(FormatterTypes.CoreGraphics)) {
-            // MonoTouch uses C# and CoreGraphics
-            code = new CSharpCoreGraphicsFormatter(writer);
-            fontWriter.PrologueCoreGraphics(writer);
-            writeElement = (w,name)=>w.WriteLine("\t\tvar {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
-        } else if (fType.HasFlag(FormatterTypes.XwtDrawingContext)) {
-            // MonoTouch uses C# and CoreGraphics
-            code = new XwtContextFormatter(writer);
-            fontWriter.PrologueXwtGraphics(writer);
-            writeElement = (w, name) => w.WriteLine("\t\tvar {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
-        }
-        fontWriter.Write(writer, File.ReadAllLines(svg_file), File.ReadAllLines(css_file), code,writeElement);
+		var fontWriter = new FontAwesomeWriter ();
+		var fType = FormatterTypes.XwtDrawingContext;
+		Action<TextWriter, string> writeElement = null;
+		if (fType == FormatterTypes.CoreGraphics) {
+			code = new CSharpCoreGraphicsFormatter (writer);
+			fontWriter.PrologueCoreGraphics (writer);
+			writeElement = (w, name) => w.WriteLine ("\t\tImageStringElement {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
+		} else if (fType == FormatterTypes.XwtDrawingContext) {
+            
+			code = new XwtContextFormatter (writer);
+			fontWriter.PrologueXwtGraphics (writer);
+			Func<string, string> camelCase = s => s.Substring (0, 1).ToUpper () + s.Substring (1);
+			writeElement = (w, name) => w.WriteLine ("\t\tpublic ImageStringElement {0}Element = new ImageStringElement (\"{1}\", GetAwesomeIcon ({0}));", camelCase (name), name);
+		}
+		fontWriter.Write (writer, File.ReadAllLines (svg_file), File.ReadAllLines (css_file), code, writeElement);
       
 
-        writer.Close ();
+		writer.Close ();
 
+		Console.WriteLine("Converted to {0}\tused css\t{1}\tsvg\t{2}",
+		                  args.Length>1?args [1]:"Console", 
+		                 css_file, svg_file );
 		return 0;
 	}
 }

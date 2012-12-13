@@ -13,7 +13,9 @@ using System.IO;
 namespace Poupou.SvgPathConverter {
     
     public class FontAwesomeWriter {
+
         public virtual void PrologueCoreGraphics(TextWriter writer) {
+            // MonoTouch uses C# and CoreGraphics
             writer.WriteLine("// note: Generated file - do not modify - use convert-font-awesome to regenerate");
             writer.WriteLine();
             writer.WriteLine("using MonoTouch.CoreGraphics;");
@@ -24,6 +26,7 @@ namespace Poupou.SvgPathConverter {
             writer.WriteLine("namespace Poupou.Awesome.Demo {");
             writer.WriteLine();
         }
+
         public virtual void PrologueXwtGraphics(TextWriter writer) {
             writer.WriteLine("// note: Generated file - do not modify - use convert-font-awesome to regenerate");
             writer.WriteLine();
@@ -32,20 +35,13 @@ namespace Poupou.SvgPathConverter {
             writer.WriteLine();
             writer.WriteLine("namespace Limada.XwtAwesome {");
             writer.WriteLine();
-            writer.WriteLine("\t[Preserve]");
-            writer.WriteLine("\tpublic partial class ImageStringElement {");
-            writer.WriteLine("\tpublic ImageStringElement (string name, Action<Context> ctx)  {");
-            writer.WriteLine("\t}");
-            writer.WriteLine("\tpublic string Name {get;set;}");
-            writer.WriteLine("\tpublic Action<Context> Name {get;set;}");
-            writer.WriteLine("\t}");
         }
 
         public virtual void Write(TextWriter writer, IEnumerable<string> svgLines, IEnumerable<string> cssLines, ISourceFormatter code, Action<TextWriter, string> writeElement) {
 
             writer.WriteLine("\t[Preserve]");
             writer.WriteLine("\tpublic partial class Elements {");
-
+            
             var names = new Dictionary<string, string>();
             foreach (var line in cssLines) {
                 if (!line.StartsWith(".icon-", StringComparison.Ordinal))

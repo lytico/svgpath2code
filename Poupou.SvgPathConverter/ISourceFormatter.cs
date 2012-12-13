@@ -18,8 +18,19 @@ namespace Poupou.SvgPathConverter {
 	
 		void MoveTo (Point pt);
 		void LineTo (Point pt);
-		void QuadCurveTo (Point pt1, Point pt2);
-		void CurveTo (Point pt1, Point pt2, Point pt3);
+        /// <summary>
+        /// adds a bezier curve from current (startPoint) to endPoint with controlPoint
+        /// </summary>
+        /// <param name="endPoint"></param>
+        /// <param name="controlPoint"></param>
+		void QuadCurveTo (Point endPoint, Point controlPoint);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="endPoint"></param>
+        /// <param name="controlPoint1"></param>
+        /// <param name="controlPoint2"></param>
+		void CurveTo (Point endPoint, Point controlPoint1, Point controlPoint2);
         void ArcTo(Point size, Number angle, bool isLarge, bool sweep, Point ep, Point sp);
 		void ClosePath ();
 	}

@@ -1,0 +1,39 @@
+<Configuration>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:ISourceFormatter.cs" caret="771" fromTop="11" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:FormatterTypes.cs" caret="35" fromTop="0" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="819" fromTop="0" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:Program.cs" caret="2378" fromTop="59" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:FontAwesomeWriter.cs" caret="473" fromTop="0" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:CSharpCoreGraphicsFormatter.cs" caret="1494" fromTop="12" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:SvgPathParser.cs" caret="5299" fromTop="0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="908" fromTop="8" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="1013" fromTop="13" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:ISourceFormatter.cs" caret="558" fromTop="11" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:ISourceFormatter.cs" caret="771" fromTop="11" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:Program.cs" caret="1921" fromTop="11" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:FontAwesomeWriter.cs" caret="1451" fromTop="6" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:FontAwesomeWriter.cs" caret="1773" fromTop="6" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:FontAwesomeWriter.cs" caret="473" fromTop="10" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:Program.cs" caret="2475" fromTop="5" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="1574" fromTop="12" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="1194" fromTop="4" />
+      <File id="FAF6E910-3650-4F4F-9487-F2F1938A0569/f:XwtContextFormatter.cs" caret="709" fromTop="1" />
+      <File id="85178F62-FED3-4199-904F-7FE107F27F98/f:Program.cs" caret="1815" fromTop="10" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+</Configuration>
