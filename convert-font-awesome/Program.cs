@@ -50,19 +50,27 @@ class Program
         
 		var fontWriter = new FontAwesomeWriter ();
 		var fType = FormatterTypes.XwtDrawingContext;
-		Action<TextWriter, string> writeElement = null;
+		Action<TextWriter, string,string> writeElement = null;
+		Action<TextWriter, string, string> beforeParse = null;
 		if (fType == FormatterTypes.CoreGraphics) {
 			code = new CSharpCoreGraphicsFormatter (writer);
 			fontWriter.PrologueCoreGraphics (writer);
-			writeElement = (w, name) => w.WriteLine ("\t\tImageStringElement {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
+			writeElement = (w, name, value) => {
+				w.WriteLine ("\t\t// {0} : {1}", name, value);
+				w.WriteLine ("\t\tImageStringElement {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
+							writer.WriteLine ();
+			};
+				beforeParse = (w,name,id)=>w.WriteLine();
 		} else if (fType == FormatterTypes.XwtDrawingContext) {
             
 			code = new XwtContextFormatter (writer);
 			fontWriter.PrologueXwtGraphics (writer);
-			Func<string, string> camelCase = s => s.Substring (0, 1).ToUpper () + s.Substring (1);
-			writeElement = (w, name) => w.WriteLine ("\t\tpublic ImageStringElement {0}Element = new ImageStringElement (\"{1}\", GetAwesomeIcon ({0}));", camelCase (name), name);
+			writeElement = (w, name, value) => w.Write("");
+			beforeParse = (w,name,id)=>
+				w.WriteLine ("\t\t[Icon(Name=\"{0}\",Id=\"{1}\")]", name, id);
+
 		}
-		fontWriter.Write (writer, File.ReadAllLines (svg_file), File.ReadAllLines (css_file), code, writeElement);
+		fontWriter.Write (writer, File.ReadAllLines (svg_file), File.ReadAllLines (css_file), code, writeElement,beforeParse);
       
 
 		writer.Close ();

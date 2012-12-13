@@ -7,7 +7,6 @@
  * Copyright (C) 2012 Lytico (http://www.limada.org)
  * 
  */
-
 using System;
 using System.IO;
 using Point = System.Drawing.PointF;
@@ -27,14 +26,14 @@ namespace Poupou.SvgPathConverter
 		
 		public virtual void Prologue (string name)
 		{
-			writer.WriteLine ("\tstatic void {0} (Context c)", name);
+			writer.WriteLine ("\tpublic virtual void {0} (Context c)", name);
 			writer.WriteLine ("\t{");
 		}
 	
 		public virtual void Epilogue ()
 		{
-			writer.WriteLine ("\t\tc.FillPreserve ();");
-			writer.WriteLine ("\t\tc.Stroke ();");
+			//writer.WriteLine ("\t\tc.FillPreserve ();");
+			//writer.WriteLine ("\t\tc.Stroke ();");
 			writer.WriteLine ("\t}");
 			writer.WriteLine ();
 		}

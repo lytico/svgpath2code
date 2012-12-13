@@ -102,13 +102,13 @@ namespace Poupou.SvgPathConverter {
 		{
 			formatter.Prologue (name);
 
-            var start = new Point(0, 0);
+			var start = new Point (0, 0);
 			var cp = new Point (0, 0);
-            var cp1 = new Point (0, 0);
-            var cp2 = new Point(0, 0);
-                var  cp3 = new Point(0, 0);
-                var qbzp = new Point(0, 0); 
-                var cbzp = new Point(0, 0);
+			var cp1 = new Point (0, 0);
+			var cp2 = new Point (0, 0);
+			var cp3 = new Point (0, 0);
+			var qbzp = new Point (0, 0); 
+			var cbzp = new Point (0, 0);
 			int fill_rule = 0;
 			int pos = 0;
 			bool cbz = false;
