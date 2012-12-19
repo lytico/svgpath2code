@@ -48,6 +48,11 @@ namespace Poupou.SvgPathConverter {
 		static int FindNonFloat (string s, int pos)
 		{
 			char c = s [pos];
+            while(Char.IsWhiteSpace(c)) {
+                if (++pos == s.Length)
+                    return pos;
+                c = s[pos];
+            }
 			while ((Char.IsNumber (c) || c == '.' || c == '-' || c == '+')) {
 				if (++pos == s.Length)
 					return pos;

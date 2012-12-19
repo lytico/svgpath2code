@@ -4,7 +4,6 @@
 // Copyright 2012 Xamarin Inc.
 //
 // Licensed under the GNU LGPL 2 license only (no "later versions")
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +11,8 @@ using System.Linq;
 using Mono.Options;
 using Poupou.SvgPathConverter;
 
-class Program {
+class Program
+{
 
 	static void Usage (OptionSet os, string error, params string[] values)
 	{
@@ -31,13 +31,14 @@ class Program {
 		bool show_help = false;
 
 		var os = new OptionSet () {
-			{ "formatter=", "Source code formatter. Valid values are: 'csharp-coregraphics'", v => formatter = v },
+			{ "formatter=", "Source code formatter. Valid values are: 'csharp-coregraphics xwt-content'", v => formatter = v },
 			{ "out=", "Source code output", v => writer = new StreamWriter (v) },
 			{ "h|?|help", "Displays the help", v => show_help = true },
 		};
 
 		var svg = os.Parse (args);
-		string path = (svg.Count > 1) ? String.Concat (svg) : svg [0]; 
+		string path = svg [0];
+	   
 
 		if (show_help)
 			Usage (os, null);
@@ -49,12 +50,22 @@ class Program {
 		case "cs-cg":
 			parser.Formatter = new CSharpCoreGraphicsFormatter (writer);
 			break;
+		case "xwt-context":
+		case "xwt":
+			parser.Formatter = new XwtContextFormatter (writer);
+			break;
 		default:
 			Usage (os, "error: unkown {0} code formatter", formatter);
 			break;
 		}
-
+		if (path.StartsWith ("@")) {
+			var fileName = path.Substring (1);
+			using (var file = new StreamReader(fileName))
+				path = file.ReadToEnd ();
+		}
 		parser.Parse (path, method_name);
+		if (writer is StreamWriter)
+			((StreamWriter)writer).Close ();
 		return 0;
 	}
 }

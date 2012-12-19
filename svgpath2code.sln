@@ -116,7 +116,7 @@ Global
 		{FAF6E910-3650-4F4F-9487-F2F1938A0569}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = convert-font-awesome\convert-font-awesome.csproj
+		StartupItem = svgpath2code\svgpath2code.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = Mono
