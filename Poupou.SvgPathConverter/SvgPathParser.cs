@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using Point = System.Drawing.PointF;
 using Number = System.Single;
+using System.Globalization;
 
 namespace Poupou.SvgPathConverter {
 
@@ -75,7 +76,7 @@ namespace Poupou.SvgPathConverter {
 		{
 			int end = FindNonFloat (svg, pos);
 			string s = svg.Substring (pos, end - pos);
-            var f = Number.Parse(s);
+            var f = Number.Parse(s, CultureInfo.InvariantCulture);
 			pos = end;
 			return f;
 		}
