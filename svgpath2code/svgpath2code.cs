@@ -31,7 +31,7 @@ class Program
 		bool show_help = false;
 
 		var os = new OptionSet () {
-			{ "formatter=", "Source code formatter. Valid values are: 'csharp-coregraphics xwt-content'", v => formatter = v },
+			{ "formatter=", "Source code formatter. Valid values are: 'csharp-coregraphics xwt-context'", v => formatter = v },
 			{ "out=", "Source code output", v => writer = new StreamWriter (v) },
 			{ "h|?|help", "Displays the help", v => show_help = true },
 		};

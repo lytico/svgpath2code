@@ -36,11 +36,11 @@ class Program
 		}
 
 		string font_dir = args [0];
-		string css_file = Path.Combine (font_dir, "css/font-awesome.css");
+		string css_file = Path.Combine (font_dir, @"css\font-awesome.css");
 		if (!File.Exists (css_file))
 			Usage ("error: Missing '{0}' file.", css_file);
 
-		string svg_file = Path.Combine (font_dir, "font/fontawesome-webfont.svg");
+		string svg_file = Path.Combine (font_dir, @"fonts\fontawesome-webfont.svg");
 		if (!File.Exists (svg_file))
 			Usage ("error: Missing '{0}' file.", svg_file);
 
@@ -48,7 +48,7 @@ class Program
 
 		ISourceFormatter code = null;
         
-		var fontWriter = new FontAwesomeWriter ();
+		var fontWriter = new FontAwesomeWriter4 ();
 		var fType = FormatterTypes.XwtDrawingContext;
 		Action<TextWriter, string,string> writeElement = null;
 		Action<TextWriter, string, string> beforeParse = null;
@@ -78,6 +78,7 @@ class Program
 		Console.WriteLine("Converted to {0}\tused css\t{1}\tsvg\t{2}",
 		                  args.Length>1?args [1]:"Console", 
 		                 css_file, svg_file );
+	    Console.ReadKey (false);
 		return 0;
 	}
 }

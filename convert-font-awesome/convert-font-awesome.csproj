@@ -34,8 +34,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FontAwesomeWriter4.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="FontAwesomeWriter.cs" />
+    <Compile Include="FontAwesomeWriter0.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

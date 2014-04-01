@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Poupou.SvgPathConverter
 {
-	public class FontAwesomeWriter
+	public class FontAwesomeWriter0
 	{
 
 		public virtual void PrologueCoreGraphics (TextWriter writer)
