@@ -15,9 +15,11 @@ using Point = System.Drawing.PointF;
 using Number = System.Single;
 using System.Globalization;
 
-namespace Poupou.SvgPathConverter {
+namespace Poupou.SvgPathConverter
+{
 
-	public class SvgPathParser {
+	public class SvgPathParser
+	{
 
 		static int i;
 
@@ -39,29 +41,29 @@ namespace Poupou.SvgPathConverter {
 			if (pos >= s.Length)
 				return;
 			char c = s [pos];
-			while (!Char.IsLetterOrDigit (c) && c != '.' && c!= '-' && c != '+') {
+			while (!Char.IsLetterOrDigit (c) && c != '.' && c != '-' && c != '+') {
 				if (++pos == s.Length)
 					return;
 				c = s [pos];
 			}
 		}
-		
+
 		static int FindNonFloat (string s, int pos)
 		{
 			char c = s [pos];
-            while(Char.IsWhiteSpace(c)) {
-                if (++pos == s.Length)
-                    return pos;
-                c = s[pos];
-            }
-			while ((Char.IsNumber (c) || c == '.' || c == '-' || c == '+')) {
+			while (Char.IsWhiteSpace (c)) {
+				if (++pos == s.Length)
+					return pos;
+				c = s [pos];
+			}
+			while ((Char.IsNumber (c) || c == '.' || c == '-' || c == '+' || c == 'e')) {
 				if (++pos == s.Length)
 					return pos;
 				c = s [pos];
 			}
 			return pos;
 		}
-		
+
 		static bool MorePointsAvailable (string s, int pos)
 		{
 			if (pos >= s.Length)
@@ -71,34 +73,34 @@ namespace Poupou.SvgPathConverter {
 				c = s [++pos];
 			return Char.IsDigit (c) || c == '.' || c == '-' || c == '+';
 		}
-		
+
 		static Number GetFloat (string svg, ref int pos)
 		{
 			int end = FindNonFloat (svg, pos);
 			string s = svg.Substring (pos, end - pos);
-            var f = Number.Parse(s, CultureInfo.InvariantCulture);
+			var f = Number.Parse (s, CultureInfo.InvariantCulture);
 			pos = end;
 			return f;
 		}
-		
+
 		static Point GetPoint (string svg, ref int pos)
 		{
 			while (Char.IsWhiteSpace (svg [pos]))
 				pos++;
 			float x = GetFloat (svg, ref pos);
-			
+
 			while (Char.IsWhiteSpace (svg [pos]))
 				pos++;
 			if (svg [pos] == ',')
 				pos++;
 			while (Char.IsWhiteSpace (svg [pos]))
 				pos++;
-			
+
 			float y = GetFloat (svg, ref pos);
-			
+
 			return new Point (x, y);
 		}
-		
+
 		static Point MakeRelative (Point c, Point m)
 		{
 			return new Point (m.X + c.X, m.Y + c.Y);
@@ -113,7 +115,7 @@ namespace Poupou.SvgPathConverter {
 			var cp1 = new Point (0, 0);
 			var cp2 = new Point (0, 0);
 			var cp3 = new Point (0, 0);
-			var qbzp = new Point (0, 0); 
+			var qbzp = new Point (0, 0);
 			var cbzp = new Point (0, 0);
 			int fill_rule = 0;
 			int pos = 0;
@@ -123,7 +125,7 @@ namespace Poupou.SvgPathConverter {
 				char c = svg [pos++];
 				if (Char.IsWhiteSpace (c))
 					continue;
-				
+
 				bool relative = false;
 				switch (c) {
 				case 'f':
@@ -155,9 +157,9 @@ namespace Poupou.SvgPathConverter {
 					if (relative)
 						cp1 = MakeRelative (cp, cp1);
 					formatter.MoveTo (cp1);
-					
+
 					start = cp = cp1;
-					
+
 					Advance (svg, ref pos);
 					while (MorePointsAvailable (svg, pos)) {
 						cp1 = GetPoint (svg, ref pos);
@@ -177,7 +179,7 @@ namespace Poupou.SvgPathConverter {
 						if (relative)
 							cp1 = MakeRelative (cp, cp1);
 						Advance (svg, ref pos);
-						
+
 						formatter.LineTo (cp1);
 						cp = cp1;
 					}
@@ -205,9 +207,9 @@ namespace Poupou.SvgPathConverter {
 						if (relative)
 							cp2 = MakeRelative (cp, cp2);
 						Advance (svg, ref pos);
-						
+
 						formatter.ArcTo (cp1, angle, is_large, positive_sweep, cp2, cp);
-						
+
 						cp = cp2;
 						Advance (svg, ref pos);
 					}
@@ -223,14 +225,14 @@ namespace Poupou.SvgPathConverter {
 						if (relative)
 							cp1 = MakeRelative (cp, cp1);
 						Advance (svg, ref pos);
-						
+
 						cp2 = GetPoint (svg, ref pos);
 						if (relative)
 							cp2 = MakeRelative (cp, cp2);
 						Advance (svg, ref pos);
-						
+
 						formatter.QuadCurveTo (cp1, cp2);
-						
+
 						cp = cp2;
 						Advance (svg, ref pos);
 					}
@@ -247,19 +249,19 @@ namespace Poupou.SvgPathConverter {
 						if (relative)
 							cp1 = MakeRelative (cp, cp1);
 						Advance (svg, ref pos);
-						
+
 						cp2 = GetPoint (svg, ref pos);
 						if (relative)
 							cp2 = MakeRelative (cp, cp2);
 						Advance (svg, ref pos);
-						
+
 						cp3 = GetPoint (svg, ref pos);
 						if (relative)
 							cp3 = MakeRelative (cp, cp3);
 						Advance (svg, ref pos);
 
 						formatter.CurveTo (cp1, cp2, cp3);
-						
+
 						cp1 = cp3;
 					}
 					cp = cp3;
