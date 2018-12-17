@@ -15,7 +15,7 @@ using Poupou.SvgPathConverter;
 class Program
 {
 
-	static void Usage (string error, params string[] values)
+	static void Usage (string error, params string [] values)
 	{
 		Console.WriteLine ("Usage: convert-font-awesome <font-directory> [generated-file.cs]");
 		if (error != null) {
@@ -25,32 +25,32 @@ class Program
 		Environment.Exit (1);
 	}
 
-	public static int Main (string[] args)
+	public static int Main (string [] args)
 	{
 		if (args.Length < 1) {
-			var awesomeDir = @"..\..\Font-Awesome";
+			var awesomeDir = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Font-Awesome";
 			if (!Directory.Exists (awesomeDir))
 				Usage ("error: Path to FontAwesome directory required");
 			else
-				args = new[] { awesomeDir, "FontAwesome-Generated.cs" };
+				args = new [] { awesomeDir, "FontAwesome-Generated.cs" };
 		}
 
 		string font_dir = args [0];
-		string css_file = Path.Combine (font_dir, @"css\font-awesome.css");
+		string css_file = Path.Combine (font_dir, $"css{Path.DirectorySeparatorChar}all.css");
 		if (!File.Exists (css_file))
 			Usage ("error: Missing '{0}' file.", css_file);
 
-		string svg_file = Path.Combine (font_dir, @"fonts\fontawesome-webfont.svg");
+		string svg_file = Path.Combine (font_dir, $"webfonts{Path.DirectorySeparatorChar}fa-brands-400.svg");
 		if (!File.Exists (svg_file))
 			Usage ("error: Missing '{0}' file.", svg_file);
 
 		TextWriter writer = (args.Length < 2) ? Console.Out : new StreamWriter (args [1]);
 
 		ISourceFormatter code = null;
-        
-		var fontWriter = new FontAwesomeWriter4 ();
+
+		var fontWriter = new FontAwesomeWriter5 ();
 		var fType = FormatterTypes.XwtDrawingContext;
-		Action<TextWriter, string,string> writeElement = null;
+		Action<TextWriter, string, string> writeElement = null;
 		Action<TextWriter, string, string> beforeParse = null;
 		if (fType == FormatterTypes.CoreGraphics) {
 			code = new CSharpCoreGraphicsFormatter (writer);
@@ -58,27 +58,28 @@ class Program
 			writeElement = (w, name, value) => {
 				w.WriteLine ("\t\t// {0} : {1}", name, value);
 				w.WriteLine ("\t\tImageStringElement {0}_element = new ImageStringElement (\"{0}\", GetAwesomeIcon ({0}));", name);
-							writer.WriteLine ();
+				writer.WriteLine ();
 			};
-				beforeParse = (w,name,id)=>w.WriteLine();
+			beforeParse = (w, name, id) => w.WriteLine ();
 		} else if (fType == FormatterTypes.XwtDrawingContext) {
-            
+
 			code = new XwtContextFormatter (writer);
 			fontWriter.PrologueXwtGraphics (writer);
-			writeElement = (w, name, value) => w.Write("");
-			beforeParse = (w,name,id)=>
+			writeElement = (w, name, value) => w.Write ("");
+			beforeParse = (w, name, id) =>
 				w.WriteLine ("\t\t[Icon(Name=\"{0}\",Id=\"{1}\")]", name, id);
 
 		}
-		fontWriter.Write (writer, File.ReadAllLines (svg_file), File.ReadAllLines (css_file), code, writeElement,beforeParse);
-      
+		using (var css = File.OpenRead (svg_file))
+			fontWriter.Write (writer, css, code, writeElement, beforeParse);
+
 
 		writer.Close ();
 
-		Console.WriteLine("Converted to {0}\tused css\t{1}\tsvg\t{2}",
-		                  args.Length>1?args [1]:"Console", 
-		                 css_file, svg_file );
-	    Console.ReadKey (false);
+		Console.WriteLine ("Converted to {0}\tused css\t{1}\tsvg\t{2}",
+				  args.Length > 1 ? args [1] : "Console",
+				 css_file, svg_file);
+		Console.ReadKey (false);
 		return 0;
 	}
 }
